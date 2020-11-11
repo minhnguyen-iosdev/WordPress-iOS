@@ -51,7 +51,9 @@ struct XpostSuggestionService {
 
         let urlString = "/wpcom/v2/sites/\(hostname)/xposts"
 
-        api.GET(urlString, parameters: nil) { responseObject, httpResponse in
+        api.GET(urlString, parameters: [
+            "decode_html": true,
+        ] as [String: AnyObject]) { responseObject, httpResponse in
             do {
                 let data = try JSONSerialization.data(withJSONObject: responseObject)
                 try self.purgeExistingResults(for: blog, using: managedObjectContext)
